@@ -22,8 +22,8 @@ const scenes = Actions.create(
       contentComponent={SideBarComponent}
       >
       <Scene key="TopScreen" initial component={TopScreen} title="TopScreen"/>
-      <Scene key="ArticleScreen" component={ArticleScreen} title="ArticleScreen" />
     </Drawer>
+    <Scene key="ArticleScreen" component={ArticleScreen} title="ArticleScreen"/>
   </Scene>
 );
 

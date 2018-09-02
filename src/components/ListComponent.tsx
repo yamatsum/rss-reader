@@ -32,7 +32,6 @@ class ListComponent extends React.Component<any, any> {
     .then(response => response.json())
     .then((json) => {
       if (json.status === 'ok') {
-        console.log(json);
         this.setRss(json);
       }else {
         console.log("failed");
@@ -44,7 +43,7 @@ class ListComponent extends React.Component<any, any> {
     return (
       <List dataArray={this.state.rss}
         renderRow={(rss) =>
-          <ListItem onPress={() => {Actions.ArticleScreen({ link: rss.link })}}>
+          <ListItem onPress={() => { Actions.ArticleScreen({ link: rss.link }); }}>
             <Thumbnail square size={80} source={{ uri: rss.thumbnail }} />
             <Body>
               <Text>{ rss.title }</Text>
