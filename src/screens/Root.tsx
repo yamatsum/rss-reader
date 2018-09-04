@@ -20,10 +20,11 @@ const scenes = Actions.create(
       drawerWidth={ 300 }
       drawerIcon={() => (<Icon name='menu' />)}
       contentComponent={SideBarComponent}
+      hideNavBar
       >
       <Scene key="TopScreen" initial component={TopScreen} title="TopScreen"/>
     </Drawer>
-    <Scene key="ArticleScreen" component={ArticleScreen} title="ArticleScreen"/>
+    <Scene key="ArticleScreen" component={ArticleScreen} title="ArticleScreen" hideNavBar={false} />
   </Scene>
 );
 
