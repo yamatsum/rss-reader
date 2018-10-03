@@ -7,7 +7,10 @@ import {
   Text,
 } from "native-base";
 import * as React from "react";
-import { RefreshControl } from 'react-native';
+import {
+  RefreshControl,
+  AsyncStorage,
+} from 'react-native';
 import {
   Actions,
 } from 'react-native-router-flux';
@@ -33,13 +36,23 @@ class ListComponent extends React.Component<any, any> {
     return 'ok';
   }
 
-  _onRefresh = () => {
+  _onRefresh = async () => {
     this.setState({refreshing: true});
     console.log('hoge');
     this.setState({refreshing: false});
     // this.fetchData().then(() => {
     //   this.setState({refreshing: false});
     // });
+
+    try {
+      const value = await AsyncStorage.getItem('bookmarks');
+      if (value !== null) {
+        // We have data!!
+        console.log(value);
+      }
+    } catch (error) {
+      // Error retrieving data
+    }
   }
 
   componentWillMount() {
@@ -69,7 +82,7 @@ class ListComponent extends React.Component<any, any> {
         <List
           dataArray={this.state.rss}
           renderRow={(rss) =>
-            <ListItem onPress={() => { Actions.ArticleScreen({ link: rss.link }); }}>
+            <ListItem onPress={() => { Actions.ArticleScreen({ rss }); }}>
               <Thumbnail square size={80} source={{ uri: rss.thumbnail }} />
               <Body>
                 <Text>{ rss.title }</Text>
