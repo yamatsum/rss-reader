@@ -1,21 +1,24 @@
 import * as React from "react";
-import { Drawer } from 'native-base';
-import SideBar from '../components/SideBarComponent.tsx';
+import { Drawer } from "native-base";
+import SideBar from "../components/SideBarComponent.tsx";
 
 export default class DrawerScreen extends React.Component<any, any> {
   render() {
     closeDrawer = () => {
-      this.drawer._root.close()
+      this.drawer._root.close();
     };
     openDrawer = () => {
-      this.drawer._root.open()
+      this.drawer._root.open();
     };
     return (
       <Drawer
-        ref={(ref) => { this.drawer = ref; }}
+        ref={ref => {
+          this.drawer = ref;
+        }}
         content={<SideBar navigator={this.navigator} />}
-        onClose={() => this.closeDrawer()} >
-      // Main View
+        onClose={() => this.closeDrawer()}
+      >
+        // Main View
       </Drawer>
     );
   }

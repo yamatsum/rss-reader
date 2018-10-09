@@ -3,8 +3,5 @@
   "rulesDirectory": ["tslint-plugin-prettier"],
   "rules": {
     "prettier": true,
-  },
-  "compilerOptions": {
-    "lib": [ "es2015" ]
   }
 }

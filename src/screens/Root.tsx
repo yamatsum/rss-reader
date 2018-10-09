@@ -1,30 +1,32 @@
 /* tslint:disable-next-line */
 import * as React from "react";
-import {
-  Scene,
-  Router,
-  Actions,
-  Drawer,
-} from 'react-native-router-flux';
-import { Icon } from 'native-base';
+import { Scene, Router, Actions, Drawer } from "react-native-router-flux";
+import { Icon } from "native-base";
 
 import TopScreen from "./TopScreen";
 import ArticleScreen from "./ArticleScreen";
 // import DrawerScreen from './DrawerScreen';
-import SideBarComponent from '../components/SideBarComponent';
+import SideBarComponent from "../components/SideBarComponent";
+import BookmarkScreen from "./BookmarkScreen";
 
 const scenes = Actions.create(
   <Scene key="root" hideNavBar>
     <Drawer
       key="drawer"
-      drawerWidth={ 300 }
-      drawerIcon={() => (<Icon name='menu' />)}
+      drawerWidth={300}
+      drawerIcon={() => <Icon name="menu" />}
       contentComponent={SideBarComponent}
       hideNavBar
-      >
-      <Scene key="TopScreen" initial component={TopScreen} title="TopScreen"/>
+    >
+      <Scene key="TopScreen" initial component={TopScreen} title="TopScreen" />
     </Drawer>
-    <Scene key="ArticleScreen" component={ArticleScreen} title="ArticleScreen" hideNavBar />
+    <Scene
+      key="ArticleScreen"
+      component={ArticleScreen}
+      title="ArticleScreen"
+      hideNavBar
+    />
+    <Scene key="BookmarkScreen" component={BookmarkScreen} title="bookmarks" />
   </Scene>
 );
 
@@ -37,6 +39,6 @@ export default class App extends React.Component {
     //   this.drawer._root.open()
     // };
 
-    return <Router scenes={scenes}/>
+    return <Router scenes={scenes} />;
   }
 }

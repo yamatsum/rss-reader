@@ -1,8 +1,14 @@
 import * as React from "react";
+import { Scene, Actions } from "react-native-router-flux";
 import {
-  Scene,
-} from 'react-native-router-flux';
-import { Container, Header, Content, Button, List, ListItem, Text } from 'native-base';
+  Container,
+  Header,
+  Content,
+  Button,
+  List,
+  ListItem,
+  Text
+} from "native-base";
 
 export default class SideBarComponent extends React.Component<any, any> {
   render() {
@@ -14,7 +20,7 @@ export default class SideBarComponent extends React.Component<any, any> {
             <ListItem>
               <Text>Today</Text>
             </ListItem>
-            <ListItem>
+            <ListItem onPress={() => Actions.BookmarkScreen()}>
               <Text>Read Later</Text>
             </ListItem>
             <ListItem>
