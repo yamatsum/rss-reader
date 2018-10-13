@@ -9,7 +9,8 @@ import {
   Right,
   Button,
   Icon,
-  Title
+  Title,
+  Footer
 } from "native-base";
 
 class ArticleScreen extends React.Component<any, any> {
@@ -86,6 +87,10 @@ class ArticleScreen extends React.Component<any, any> {
     }
   };
 
+  webView = {
+    ref: null
+  };
+
   render() {
     return (
       <Container>
@@ -108,7 +113,35 @@ class ArticleScreen extends React.Component<any, any> {
             </Button>
           </Right>
         </Header>
-        <WebView source={{ uri: this.props.rss.link }} />
+        <WebView
+          ref={r => (this.webView.ref = r)}
+          source={{ uri: this.props.rss.link }}
+        />
+        <Footer>
+          <Left style={{ flexDirection: "row" }}>
+            <Button
+              onPress={() => {
+                this.webView.ref.goBack();
+              }}
+              transparent
+            >
+              <Icon name="arrow-back" />
+            </Button>
+            <Button
+              onPress={() => {
+                this.webView.ref.goForward();
+              }}
+              transparent
+            >
+              <Icon name="arrow-forward" />
+            </Button>
+          </Left>
+          <Right>
+            <Button transparent>
+              <Icon type="Feather" name="share" />
+            </Button>
+          </Right>
+        </Footer>
       </Container>
     );
   }

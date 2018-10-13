@@ -25,12 +25,10 @@ class ListComponent extends React.Component<any, any> {
   };
 
   _onRefresh = async () => {
+    this.setRss({ items: [] });
     this.setState({ refreshing: true });
-    console.log("hoge");
+    this.loadFeed();
     this.setState({ refreshing: false });
-    // this.fetchData().then(() => {
-    //   this.setState({refreshing: false});
-    // });
 
     try {
       const value = await AsyncStorage.getItem("bookmarks");
@@ -43,7 +41,7 @@ class ListComponent extends React.Component<any, any> {
     }
   };
 
-  componentWillMount() {
+  loadFeed() {
     const parseUrl = "https://api.rss2json.com/v1/api.json?rss_url=";
     const rssUrl = "http://jojosoku.com/feed";
     fetch(parseUrl + rssUrl)
@@ -55,6 +53,10 @@ class ListComponent extends React.Component<any, any> {
           console.log("failed");
         }
       });
+  }
+
+  componentDidMount() {
+    this.loadFeed();
   }
 
   render() {
