@@ -15,7 +15,15 @@
     "tslint-config-prettier": "^1.15.0",
     "tslint-plugin-prettier": "^2.0.0",
     "tslint-react": "^3.6.0",
-    "typescript": "^3.0.3"
+    "typescript": "^3.0.3",
+    "@storybook/react-native": "^3.4.11",
+    "@storybook/addon-actions": "^3.4.11",
+    "@storybook/addon-links": "^3.4.11",
+    "@storybook/addons": "^3.4.11",
+    "babel-core": "^6.26.3",
+    "babel-runtime": "^6.26.0",
+    "react-dom": "16.3.1",
+    "prop-types": "^15.6.2"
   },
   "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
   "scripts": {
@@ -23,7 +31,8 @@
     "eject": "react-native-scripts eject",
     "android": "react-native-scripts android",
     "ios": "react-native-scripts ios",
-    "test": "jest"
+    "test": "jest",
+    "storybook": "storybook start -p 7007"
   },
   "jest": {
     "preset": "jest-expo"
@@ -34,7 +43,10 @@
     "native-base": "^2.8.0",
     "react": "16.3.1",
     "react-native": "~0.55.2",
+    "react-native-elevated-view": "0.0.6",
     "react-native-iphone-x-helper": "^1.2.0",
-    "react-native-router-flux": "^4.0.1"
+    "react-native-router-flux": "^4.0.1",
+    "react-native-swiper": "^1.5.13",
+    "react-native-ui-kitten": "^3.1.2"
   }
 }

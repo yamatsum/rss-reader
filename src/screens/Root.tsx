@@ -9,6 +9,7 @@ import ArticleScreen from "./ArticleScreen";
 // import DrawerScreen from './DrawerScreen';
 import SideBarComponent from "../components/SideBarComponent";
 import BookmarkScreen from "./BookmarkScreen";
+import TestScreen from "./TestScreen";
 import { getStatusBarHeight, ifIphoneX } from "react-native-iphone-x-helper";
 
 const styles = StyleSheet.create({
@@ -23,12 +24,13 @@ const styles = StyleSheet.create({
         height: 50
       }
     )
-    // backgroundColor: "#81b71a"
+    // backgroundColor: "transparent"
+    // backgroundColor: "rgba(52, 52, 52, 0.5)"
   }
 });
 
 const scenes = Actions.create(
-  <Scene key="root" navigationBarStyle={styles.root} navTransparent>
+  <Scene key="root" navigationBarStyle={styles.root}>
     <Drawer
       key="drawer"
       drawerWidth={300}
@@ -36,7 +38,12 @@ const scenes = Actions.create(
       contentComponent={SideBarComponent}
       hideNavBar
     >
-      <Scene key="TopScreen" initial component={TopScreen} title="TopScreen" />
+      <Scene
+        key="TopScreen"
+        initial
+        component={TopScreen}
+        title="ジョジョのニュース"
+      />
     </Drawer>
     <Scene
       key="ArticleScreen"
@@ -57,6 +64,6 @@ export default class App extends React.Component {
     //   this.drawer._root.open()
     // };
 
-    return <Router scenes={scenes} sceneStyle={styles.root} />;
+    return <Router scenes={scenes} />;
   }
 }
