@@ -30,9 +30,7 @@ const styles = StyleSheet.create({
     flex: 1
   },
   container: {
-    flex: 1,
-    borderWidth: 0.5,
-    borderColor: "#d6d7da"
+    flex: 1
   },
   stayElevated: {
     // width: 380,
@@ -129,12 +127,14 @@ class ListComponent extends React.Component<any, any> {
               />
             </View>
             <View style={{ flexDirection: "column", flex: 1 }}>
-              <Text style={{ padding: 10 }}>
+              <Text style={{ padding: 10, flex: 3, fontWeight: "bold" }}>
                 {this.state.rss[i + count * ITEM_COUNT_PAGE]
                   ? this.state.rss[i + count * ITEM_COUNT_PAGE].title
                   : "hoge"}
               </Text>
-              <Text style={{ padding: 10 }}>ジョジョ速</Text>
+              <Text style={{ padding: 10, flex: 1, color: "gray" }}>
+                ジョジョ速
+              </Text>
             </View>
           </ElevatedView>
         </TouchableOpacity>
