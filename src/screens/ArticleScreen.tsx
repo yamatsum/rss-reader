@@ -1,5 +1,5 @@
 import * as React from "react";
-import { WebView, AsyncStorage } from "react-native";
+import { WebView, AsyncStorage, Share } from "react-native";
 import { Actions } from "react-native-router-flux";
 import {
   Container,
@@ -87,6 +87,26 @@ class ArticleScreen extends React.Component<any, any> {
     }
   };
 
+  shareFeed(rss: any) {
+    Share.share(
+      {
+        // message:
+        //   "BAM: we're helping your business with awesome React Native apps",
+        // url: "http://bam.tech",
+        url: rss.link,
+        // title: "Wow, did you see that?"
+        title: rss.title
+      },
+      {
+        // Android only:
+        dialogTitle: "Share BAM goodness",
+        // iOS only:
+        excludedActivityTypes: ["com.apple.UIKit.activity.PostToTwitter"]
+      }
+    );
+    return;
+  }
+
   webView = {
     ref: null
   };
@@ -101,7 +121,7 @@ class ArticleScreen extends React.Component<any, any> {
             </Button>
           </Left>
           <Body>
-            <Title>Title</Title>
+            <Title>{this.props.rss.author}</Title>
           </Body>
           <Right>
             <Button onPress={() => this._storeData(this.props.rss)} transparent>
@@ -137,7 +157,7 @@ class ArticleScreen extends React.Component<any, any> {
             </Button>
           </Left>
           <Right>
-            <Button transparent>
+            <Button transparent onPress={() => this.shareFeed(this.props.rss)}>
               <Icon type="Feather" name="share" />
             </Button>
           </Right>

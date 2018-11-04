@@ -114,6 +114,13 @@ class ListComponent extends React.Component<any, any> {
         <TouchableOpacity
           key={i + count * ITEM_COUNT_PAGE}
           style={styles.container}
+          onPress={() => {
+            Actions.ArticleScreen({
+              rss: this.state.rss[i + count * ITEM_COUNT_PAGE]
+                ? this.state.rss[i + count * ITEM_COUNT_PAGE]
+                : "hoge"
+            });
+          }}
         >
           <ElevatedView elevation={20} style={styles.stayElevated}>
             <View style={styles.img}>

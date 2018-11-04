@@ -13,18 +13,18 @@ import TestScreen from "./TestScreen";
 import { getStatusBarHeight, ifIphoneX } from "react-native-iphone-x-helper";
 
 const styles = StyleSheet.create({
-  root: {
-    ...ifIphoneX(
-      {
-        paddingTop: 40,
-        height: 70
-      },
-      {
-        paddingTop: getStatusBarHeight(),
-        height: 50
-      }
-    )
-  },
+  // root: {
+  //   ...ifIphoneX(
+  //     {
+  //       paddingTop: 40,
+  //       height: 70
+  //     },
+  //     {
+  //       paddingTop: getStatusBarHeight(),
+  //       height: 50
+  //     }
+  //   )
+  // },
   test: {
     // backgroundColor: "transparent"
     // backgroundColor: "rgba(52, 52, 52, 0.5)"
