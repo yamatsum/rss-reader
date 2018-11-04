@@ -24,17 +24,21 @@ const styles = StyleSheet.create({
         height: 50
       }
     )
+  },
+  test: {
     // backgroundColor: "transparent"
     // backgroundColor: "rgba(52, 52, 52, 0.5)"
+    backgroundColor: "#1e2226",
+    borderBottomWidth: 0
   }
 });
 
 const scenes = Actions.create(
-  <Scene key="root" navigationBarStyle={styles.root}>
+  <Scene key="root">
     <Drawer
       key="drawer"
       drawerWidth={300}
-      drawerIcon={() => <Icon name="menu" />}
+      drawerIcon={() => <Icon name="menu" style={{ color: "white" }} />}
       contentComponent={SideBarComponent}
       hideNavBar
     >
@@ -42,7 +46,9 @@ const scenes = Actions.create(
         key="TopScreen"
         initial
         component={TopScreen}
-        title="ジョジョのニュース"
+        navigationBarStyle={styles.test}
+        titleStyle={{ color: "#FFF" }}
+        title="ジョジョニュース"
       />
     </Drawer>
     <Scene

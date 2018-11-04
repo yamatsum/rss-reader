@@ -13,55 +13,67 @@ import { Actions } from "react-native-router-flux";
 import Swiper from "react-native-swiper";
 import ElevatedView from "react-native-elevated-view";
 
+const ITEM_COUNT_PAGE = 6;
+
 const styles = StyleSheet.create({
   slide: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
+    flex: 1
+    // justifyContent: "center",
+    // alignItems: "center",
   },
   text: {
     color: "#fff",
     fontSize: 30,
     fontWeight: "bold"
   },
-  container: {
+  list: {
     flex: 1
   },
+  container: {
+    flex: 1,
+    borderWidth: 0.5,
+    borderColor: "#d6d7da"
+  },
   stayElevated: {
-    width: 380,
-    height: 100,
-    margin: 10,
+    // width: 380,
+    // height: 100,
+    // margin: 10,
+    flex: 1,
     backgroundColor: "white",
     borderRadius: 10,
-    flexDirection: "row"
+    flexDirection: "row",
+    margin: 10
   },
   img: {
-    width: 105,
-    height: 100,
     borderBottomLeftRadius: 10,
     borderTopLeftRadius: 10,
-    overflow: "hidden"
+    overflow: "hidden",
+    aspectRatio: 1
   }
 });
 
 class ListComponent extends React.Component<any, any> {
+  pages = [];
+
   constructor(props: any) {
     super(props);
     this.state = {
-      rss: [],
-      refreshing: false
+      rss: [{ title: "fuga" }],
+      refreshing: false,
+      itemCount: ITEM_COUNT_PAGE
     };
     this.setRss = this.setRss.bind(this);
   }
 
   setRss(json: any) {
+    console.log("setrss");
     this.setState({
-      rss: json.items
+      rss: json.items,
+      itemCount: json.items.length
     });
   }
 
   fetchData = () => {
-    console.log("hoge");
     return "ok";
   };
 
@@ -75,7 +87,7 @@ class ListComponent extends React.Component<any, any> {
       const value = await AsyncStorage.getItem("bookmarks");
       if (value !== null) {
         // We have data!!
-        console.log(value);
+        // console.log(value);
       }
     } catch (error) {
       // Error retrieving data
@@ -83,6 +95,7 @@ class ListComponent extends React.Component<any, any> {
   };
 
   loadFeed() {
+    console.log("load");
     const parseUrl = "https://api.rss2json.com/v1/api.json?rss_url=";
     const rssUrl = "http://jojosoku.com/feed";
     fetch(parseUrl + rssUrl)
@@ -96,69 +109,61 @@ class ListComponent extends React.Component<any, any> {
       });
   }
 
+  setFeedItem(count: number) {
+    let feedItems = [];
+    for (let i = 0; i < ITEM_COUNT_PAGE; i++) {
+      feedItems.push(
+        <TouchableOpacity
+          key={i + count * ITEM_COUNT_PAGE}
+          style={styles.container}
+        >
+          <ElevatedView elevation={20} style={styles.stayElevated}>
+            <View style={styles.img}>
+              <Image
+                style={{ flex: 1 }}
+                source={{
+                  uri: this.state.rss[i + count * ITEM_COUNT_PAGE]
+                    ? this.state.rss[i + count * ITEM_COUNT_PAGE].thumbnail
+                    : "hoge"
+                }}
+              />
+            </View>
+            <View style={{ flexDirection: "column", flex: 1 }}>
+              <Text style={{ padding: 10 }}>
+                {this.state.rss[i + count * ITEM_COUNT_PAGE]
+                  ? this.state.rss[i + count * ITEM_COUNT_PAGE].title
+                  : "hoge"}
+              </Text>
+              <Text style={{ padding: 10 }}>ジョジョ速</Text>
+            </View>
+          </ElevatedView>
+        </TouchableOpacity>
+      );
+    }
+    return feedItems;
+  }
+
   componentDidMount() {
     this.loadFeed();
   }
 
   render() {
+    for (
+      let counter = 0;
+      counter < Math.ceil(this.state.itemCount / ITEM_COUNT_PAGE);
+      counter++
+    ) {
+      this.pages[counter] = (
+        <View key={counter} style={styles.slide}>
+          {this.setFeedItem(counter)}
+        </View>
+      );
+    }
+
     return (
-      // <Content
-      //   refreshControl={
-      //     <RefreshControl
-      //       refreshing={this.state.refreshing}
-      //       onRefresh={this._onRefresh}
-      //     />
-      //   }
-      // >
-      <Swiper horizontal={false} showsPagination={false}>
-        <View style={styles.slide}>
-          <FlatList
-            data={this.state.rss}
-            renderItem={rss => (
-              <TouchableOpacity
-                onPress={() => {
-                  Actions.ArticleScreen({ rss: rss.item });
-                }}
-                style={styles.container}
-              >
-                <ElevatedView elevation={20} style={styles.stayElevated}>
-                  <View style={styles.img}>
-                    <Image
-                      style={{ width: 105, height: 100 }}
-                      source={{ uri: rss.item.thumbnail }}
-                    />
-                  </View>
-                  <View style={{ flexDirection: "colum" }}>
-                    <Text style={{ padding: 10, width: 270 }}>
-                      {rss.item.title}
-                    </Text>
-                    <Text style={{ padding: 10, width: 270 }}>ジョジョ速</Text>
-                  </View>
-                </ElevatedView>
-              </TouchableOpacity>
-            )}
-          />
-        </View>
-        <View style={styles.slide}>
-          <Text style={styles.text}>Second Page</Text>
-        </View>
+      <Swiper horizontal={false} showsPagination={false} loop={false}>
+        {this.pages}
       </Swiper>
-      //   <List
-      //     dataArray={this.state.rss}
-      //     renderRow={rss => (
-      //       <ListItem
-      //         onPress={() => {
-      //           Actions.ArticleScreen({ rss });
-      //         }}
-      //       >
-      //         <Thumbnail square size={80} source={{ uri: rss.thumbnail }} />
-      //         <Body>
-      //           <Text>{rss.title}</Text>
-      //         </Body>
-      //       </ListItem>
-      //     )}
-      //   />
-      // </Content>
     );
   }
 }
