@@ -18,7 +18,9 @@ class ArticleScreen extends React.Component<any, any> {
     super(props);
     this.state = {
       existFlag: false,
-      bookmarks: []
+      bookmarks: [],
+      canGoBack: false,
+      canGoForward: false
     };
   }
 
@@ -111,6 +113,19 @@ class ArticleScreen extends React.Component<any, any> {
     ref: null
   };
 
+  onNavigationStateChange(navState) {
+    // var event = navState.url.split('#')[1]
+    // var data = navState.title
+
+    this.setState({
+      canGoBack: navState.canGoBack,
+      canGoForward: navState.canGoForward
+    });
+    // if (event == 'resize') {
+    //   this.setState({ height: data })
+    // }
+  }
+
   render() {
     return (
       <Container>
@@ -136,14 +151,17 @@ class ArticleScreen extends React.Component<any, any> {
         <WebView
           ref={r => (this.webView.ref = r)}
           source={{ uri: this.props.rss.link }}
+          onNavigationStateChange={this.onNavigationStateChange.bind(this)}
         />
         <Footer>
           <Left style={{ flexDirection: "row" }}>
             <Button
               onPress={() => {
                 this.webView.ref.goBack();
+                console.log(this.webView.ref);
               }}
               transparent
+              disabled={!this.state.canGoBack}
             >
               <Icon name="arrow-back" />
             </Button>
@@ -152,6 +170,7 @@ class ArticleScreen extends React.Component<any, any> {
                 this.webView.ref.goForward();
               }}
               transparent
+              disabled={!this.state.canGoForward}
             >
               <Icon name="arrow-forward" />
             </Button>
