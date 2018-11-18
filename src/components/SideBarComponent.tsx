@@ -17,10 +17,20 @@ export default class SideBarComponent extends React.Component<any, any> {
         <Header />
         <Content>
           <List>
-            <ListItem onPress={() => Actions.TopScreen()}>
+            <ListItem
+              onPress={() => {
+                Actions.drawerClose();
+                Actions.TopScreen();
+              }}
+            >
               <Text>最新の記事</Text>
             </ListItem>
-            <ListItem onPress={() => Actions.BookmarkScreen()}>
+            <ListItem
+              onPress={() => {
+                Actions.drawerClose();
+                Actions.BookmarkScreen();
+              }}
+            >
               <Text>あとで読む</Text>
             </ListItem>
             <ListItem itemDivider />
