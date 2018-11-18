@@ -95,7 +95,7 @@ class ArticleScreen extends React.Component<any, any> {
         // message:
         //   "BAM: we're helping your business with awesome React Native apps",
         // url: "http://bam.tech",
-        url: rss.link,
+        url: rss.links[0].url,
         // title: "Wow, did you see that?"
         title: rss.title
       },
@@ -150,7 +150,7 @@ class ArticleScreen extends React.Component<any, any> {
         </Header>
         <WebView
           ref={r => (this.webView.ref = r)}
-          source={{ uri: this.props.rss.link }}
+          source={{ uri: this.props.rss.links[0].url }}
           onNavigationStateChange={this.onNavigationStateChange.bind(this)}
         />
         <Footer>

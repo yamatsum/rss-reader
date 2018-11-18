@@ -12,8 +12,18 @@ import {
 import { Actions } from "react-native-router-flux";
 import Swiper from "react-native-swiper";
 import ElevatedView from "react-native-elevated-view";
+import { isIphoneX } from "react-native-iphone-x-helper";
+import * as rssParser from "react-native-rss-parser";
+import { parse } from "node-html-parser";
 
 const ITEM_COUNT_PAGE = 6;
+const rssList = [
+  { title: "ジョジョ速", url: "https://jojosoku.com/feed" },
+  {
+    title: "ジョジョss速報",
+    url: "http://www.xn--ss-ci4aa8ub2251exr3e.com/index.rdf"
+  }
+];
 
 const styles = StyleSheet.create({
   slide: {
@@ -63,11 +73,10 @@ class ListComponent extends React.Component<any, any> {
     this.setRss = this.setRss.bind(this);
   }
 
-  setRss(json: any) {
-    console.log("setrss");
+  setRss(rss: any) {
     this.setState({
-      rss: json.items,
-      itemCount: json.items.length
+      rss: rss.items,
+      itemCount: rss.items.length
     });
   }
 
@@ -92,19 +101,29 @@ class ListComponent extends React.Component<any, any> {
     }
   };
 
-  loadFeed() {
-    console.log("load");
-    const parseUrl = "https://api.rss2json.com/v1/api.json?rss_url=";
-    const rssUrl = "http://jojosoku.com/feed";
-    fetch(parseUrl + rssUrl)
-      .then(response => response.json())
-      .then(json => {
-        if (json.status === "ok") {
-          this.setRss(json);
-        } else {
-          console.log("failed");
-        }
-      });
+  async loadFeed() {
+    // title: rss.items[0].title
+    // link: rss.items[0].links[0].url
+    for (const r of rssList) {
+      const response = await fetch(r.url);
+      const rss = await rssParser.parse(await response.text());
+
+      this.setRss(rss);
+    }
+  }
+
+  getThumbnail(rssItem: any) {
+    if (rssItem && rssItem.enclosures && rssItem.enclosures[0]) {
+      return rssItem.enclosures[0].url;
+    } else if (
+      rssItem &&
+      rssItem.content &&
+      rssItem.content.match(/\"(http:[^\"]*\.png)\"/)[1]
+    ) {
+      return rssItem.content.match(/\"(http:[^\"]*\.png)\"/)[1];
+    } else {
+      return "hoge";
+    }
   }
 
   setFeedItem(count: number) {
@@ -127,9 +146,9 @@ class ListComponent extends React.Component<any, any> {
               <Image
                 style={{ flex: 1 }}
                 source={{
-                  uri: this.state.rss[i + count * ITEM_COUNT_PAGE]
-                    ? this.state.rss[i + count * ITEM_COUNT_PAGE].thumbnail
-                    : "hoge"
+                  uri: this.getThumbnail(
+                    this.state.rss[i + count * ITEM_COUNT_PAGE]
+                  )
                 }}
               />
             </View>
