@@ -18,10 +18,15 @@ import { parse } from "node-html-parser";
 
 const ITEM_COUNT_PAGE = 6;
 const rssList = [
-  { title: "ジョジョ速", url: "https://jojosoku.com/feed" },
+  {
+    title: "ジョジョ速",
+    url: "https://jojosoku.com/feed",
+    registrationFlag: true
+  },
   {
     title: "ジョジョss速報",
-    url: "http://www.xn--ss-ci4aa8ub2251exr3e.com/index.rdf"
+    url: "http://www.xn--ss-ci4aa8ub2251exr3e.com/index.rdf",
+    registrationFlag: true
   }
 ];
 
@@ -105,10 +110,15 @@ class ListComponent extends React.Component<any, any> {
     // title: rss.items[0].title
     // link: rss.items[0].links[0].url
     for (const r of rssList) {
-      const response = await fetch(r.url);
-      const rss = await rssParser.parse(await response.text());
+      if (r.registrationFlag) {
+        const response = await fetch(r.url);
+        const rss = await rssParser.parse(await response.text());
 
-      this.setRss(rss);
+        for (const item of rss.items) {
+          item.feedTitle = rss.title;
+        }
+        this.setRss(rss);
+      }
     }
   }
 
@@ -159,7 +169,9 @@ class ListComponent extends React.Component<any, any> {
                   : "hoge"}
               </Text>
               <Text style={{ padding: 10, flex: 1, color: "gray" }}>
-                ジョジョ速
+                {this.state.rss[i + count * ITEM_COUNT_PAGE]
+                  ? this.state.rss[i + count * ITEM_COUNT_PAGE].feedTitle
+                  : "hoge"}
               </Text>
             </View>
           </ElevatedView>
