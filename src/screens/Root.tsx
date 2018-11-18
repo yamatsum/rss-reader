@@ -48,7 +48,14 @@ const scenes = Actions.create(
         component={TopScreen}
         navigationBarStyle={styles.test}
         titleStyle={{ color: "#FFF" }}
-        title="ジョジョニュース"
+        title="ジョジョのニュース"
+      />
+      <Scene
+        key="BookmarkScreen"
+        component={BookmarkScreen}
+        title="あとで読む"
+        navigationBarStyle={styles.test}
+        titleStyle={{ color: "#FFF" }}
       />
     </Drawer>
     <Scene
@@ -57,7 +64,6 @@ const scenes = Actions.create(
       title="ArticleScreen"
       hideNavBar
     />
-    <Scene key="BookmarkScreen" component={BookmarkScreen} title="bookmarks" />
   </Scene>
 );
 
