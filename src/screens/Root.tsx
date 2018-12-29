@@ -3,14 +3,19 @@ import * as React from "react";
 import { StyleSheet } from "react-native";
 import { Scene, Router, Actions, Drawer } from "react-native-router-flux";
 import { Icon } from "native-base";
+import { createStore } from "redux";
+import { Provider } from "react-redux";
 
 import TopScreen from "./TopScreen";
 import ArticleScreen from "./ArticleScreen";
 // import DrawerScreen from './DrawerScreen';
-import SideBarComponent from "../components/SideBarComponent";
+import SideBarComponent from "../containers/SideBarComponent";
 import BookmarkScreen from "./BookmarkScreen";
 import TestScreen from "./TestScreen";
 import { getStatusBarHeight, ifIphoneX } from "react-native-iphone-x-helper";
+import rssReducer from "../reducers/rss";
+
+const store = createStore(rssReducer);
 
 const styles = StyleSheet.create({
   // root: {
@@ -90,6 +95,10 @@ export default class App extends React.Component {
     //   this.drawer._root.open()
     // };
 
-    return <Router scenes={scenes} />;
+    return (
+      <Provider store={store}>
+        <Router scenes={scenes} />
+      </Provider>
+    );
   }
 }

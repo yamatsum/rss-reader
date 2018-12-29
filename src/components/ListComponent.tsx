@@ -22,12 +22,13 @@ const rssList = [
     title: "ジョジョ速",
     url: "https://jojosoku.com/feed",
     registrationFlag: true
-  },
-  {
-    title: "ジョジョss速報",
-    url: "http://www.xn--ss-ci4aa8ub2251exr3e.com/index.rdf",
-    registrationFlag: true
   }
+  // },
+  // {
+  //   title: "ジョジョss速報",
+  //   url: "http://www.xn--ss-ci4aa8ub2251exr3e.com/index.rdf",
+  //   registrationFlag: true
+  // }
 ];
 
 const styles = StyleSheet.create({
@@ -116,6 +117,7 @@ class ListComponent extends React.Component<any, any> {
 
         for (const item of rss.items) {
           item.feedTitle = rss.title;
+          console.log(item);
         }
         this.setRss(rss);
       }

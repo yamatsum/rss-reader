@@ -11,6 +11,26 @@ import {
 } from "native-base";
 
 export default class SideBarComponent extends React.Component<any, any> {
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidMount() {
+    console.log(this.props.rssList);
+  }
+
+  makeRssList() {
+    let rssList = [];
+    for (const rss of this.props.rssList) {
+      rssList.push(
+        <ListItem>
+          <Text>{rss.title}</Text>
+        </ListItem>
+      );
+    }
+    return rssList;
+  }
+
   render() {
     return (
       <Container>
@@ -34,15 +54,7 @@ export default class SideBarComponent extends React.Component<any, any> {
               <Text>あとで読む</Text>
             </ListItem>
             <ListItem itemDivider />
-            <ListItem>
-              <Text>ジョジョチャンネル</Text>
-            </ListItem>
-            <ListItem>
-              <Text>ジョジョチャンネル</Text>
-            </ListItem>
-            <ListItem>
-              <Text>ジョジョチャンネル</Text>
-            </ListItem>
+            {this.makeRssList()}
             <ListItem itemDivider />
             <ListItem>
               <Text>ご意見・ご要望</Text>
