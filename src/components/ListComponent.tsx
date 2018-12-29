@@ -22,13 +22,12 @@ const rssList = [
     title: "ジョジョ速",
     url: "https://jojosoku.com/feed",
     registrationFlag: true
+  },
+  {
+    title: "ジョジョss速報",
+    url: "http://www.xn--ss-ci4aa8ub2251exr3e.com/index.rdf",
+    registrationFlag: true
   }
-  // },
-  // {
-  //   title: "ジョジョss速報",
-  //   url: "http://www.xn--ss-ci4aa8ub2251exr3e.com/index.rdf",
-  //   registrationFlag: true
-  // }
 ];
 
 const styles = StyleSheet.create({
@@ -117,7 +116,7 @@ class ListComponent extends React.Component<any, any> {
 
         for (const item of rss.items) {
           item.feedTitle = rss.title;
-          console.log(item);
+          console.log(item.content);
         }
         this.setRss(rss);
       }
@@ -130,9 +129,12 @@ class ListComponent extends React.Component<any, any> {
     } else if (
       rssItem &&
       rssItem.content &&
+      rssItem.content.match(/\"(http:[^\"]*\.png)\"/) &&
       rssItem.content.match(/\"(http:[^\"]*\.png)\"/)[1]
     ) {
-      return rssItem.content.match(/\"(http:[^\"]*\.png)\"/)[1];
+      if (rssItem.content.match(/\"(http:[^\"]*\.png)\"/)) {
+        return rssItem.content.match(/\"(http:[^\"]*\.png)\"/)[1];
+      }
     } else {
       return "hoge";
     }
