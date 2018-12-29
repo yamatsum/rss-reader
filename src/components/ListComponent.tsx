@@ -17,19 +17,6 @@ import * as rssParser from "react-native-rss-parser";
 import { parse } from "node-html-parser";
 
 const ITEM_COUNT_PAGE = 6;
-const rssList = [
-  {
-    title: "ジョジョ速",
-    url: "https://jojosoku.com/feed",
-    registrationFlag: true
-  },
-  {
-    title: "ジョジョss速報",
-    url: "http://www.xn--ss-ci4aa8ub2251exr3e.com/index.rdf",
-    registrationFlag: true
-  }
-];
-
 const styles = StyleSheet.create({
   slide: {
     flex: 1
@@ -109,7 +96,7 @@ class ListComponent extends React.Component<any, any> {
   async loadFeed() {
     // title: rss.items[0].title
     // link: rss.items[0].links[0].url
-    for (const r of rssList) {
+    for (const r of this.props.rssList) {
       if (r.registrationFlag) {
         const response = await fetch(r.url);
         const rss = await rssParser.parse(await response.text());

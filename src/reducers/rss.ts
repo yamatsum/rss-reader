@@ -3,12 +3,12 @@ const initialState = {
     {
       title: "ジョジョ速",
       url: "https://jojosoku.com/feed",
-      registrationFlag: false
+      registrationFlag: true
     },
     {
       title: "ジョジョss速報",
       url: "http://www.xn--ss-ci4aa8ub2251exr3e.com/index.rdf",
-      registrationFlag: false
+      registrationFlag: true
     }
   ]
 };

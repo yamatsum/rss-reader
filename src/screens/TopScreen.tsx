@@ -22,7 +22,7 @@ import {
 import * as React from "react";
 import { getStatusBarHeight, ifIphoneX } from "react-native-iphone-x-helper";
 // import HeaderComponent from "../components/HeaderComponent";
-import ListComponent from "../components/ListComponent";
+import ListComponent from "../containers/ListComponent";
 import { StyleSheet, ScrollView } from "react-native";
 
 export default class TopScreen extends React.Component {

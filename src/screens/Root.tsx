@@ -38,19 +38,6 @@ const styles = StyleSheet.create({
   }
 });
 
-const rssList = [
-  {
-    title: "ジョジョ速",
-    url: "https://jojosoku.com/feed",
-    registrationFlag: true
-  },
-  {
-    title: "ジョジョss速報",
-    url: "http://www.xn--ss-ci4aa8ub2251exr3e.com/index.rdf",
-    registrationFlag: true
-  }
-];
-
 const scenes = Actions.create(
   <Scene key="root">
     <Drawer
@@ -59,7 +46,6 @@ const scenes = Actions.create(
       drawerIcon={() => <Icon name="menu" style={{ color: "white" }} />}
       contentComponent={SideBarComponent}
       hideNavBar
-      feeds={rssList}
     >
       <Scene
         key="TopScreen"
