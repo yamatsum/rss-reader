@@ -15,19 +15,15 @@ export default class SideBarComponent extends React.Component<any, any> {
     super(props);
   }
 
-  componentDidMount() {
-    console.log(this.props.rssList);
-  }
-
   makeRssList() {
     let rssList = [];
-    for (const rss of this.props.rssList) {
+    this.props.rssList.forEach((rss, index) => {
       rssList.push(
-        <ListItem>
+        <ListItem key={index}>
           <Text>{rss.title}</Text>
         </ListItem>
       );
-    }
+    });
     return rssList;
   }
 
@@ -38,6 +34,7 @@ export default class SideBarComponent extends React.Component<any, any> {
         <Content>
           <List>
             <ListItem
+              key="new"
               onPress={() => {
                 Actions.drawerClose();
                 Actions.TopScreen();
@@ -46,6 +43,7 @@ export default class SideBarComponent extends React.Component<any, any> {
               <Text>最新の記事</Text>
             </ListItem>
             <ListItem
+              key="bookmark"
               onPress={() => {
                 Actions.drawerClose();
                 Actions.BookmarkScreen();
@@ -53,13 +51,13 @@ export default class SideBarComponent extends React.Component<any, any> {
             >
               <Text>あとで読む</Text>
             </ListItem>
-            <ListItem itemDivider />
+            <ListItem key="divider1" itemDivider />
             {this.makeRssList()}
-            <ListItem itemDivider />
-            <ListItem>
+            <ListItem key="divider2" itemDivider />
+            <ListItem key="opinion">
               <Text>ご意見・ご要望</Text>
             </ListItem>
-            <ListItem>
+            <ListItem key="other">
               <Text>その他</Text>
             </ListItem>
           </List>

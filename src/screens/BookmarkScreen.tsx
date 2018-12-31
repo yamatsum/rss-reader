@@ -13,7 +13,6 @@ class BookmarkScreen extends React.Component<any, any> {
   }
 
   fetchData = () => {
-    console.log("hoge");
     return "ok";
   };
 
@@ -49,7 +48,6 @@ class BookmarkScreen extends React.Component<any, any> {
     await this._retrieveData().then(value => {
       this.setState({ rss: JSON.parse(value) });
     });
-    console.log(this.state.rss[0]);
   }
 
   render() {

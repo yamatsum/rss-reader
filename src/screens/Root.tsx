@@ -6,7 +6,7 @@ import { Icon } from "native-base";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
 
-import TopScreen from "./TopScreen";
+import TopScreen from "../containers/TopScreen";
 import ArticleScreen from "./ArticleScreen";
 // import DrawerScreen from './DrawerScreen';
 import SideBarComponent from "../containers/SideBarComponent";

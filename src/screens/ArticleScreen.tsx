@@ -37,7 +37,6 @@ class ArticleScreen extends React.Component<any, any> {
       const value = await AsyncStorage.getItem("bookmarks");
       if (value !== null) {
         // We have data!!
-        // console.log(value);
         return value;
       } else {
         return "[]";
@@ -158,7 +157,6 @@ class ArticleScreen extends React.Component<any, any> {
             <Button
               onPress={() => {
                 this.webView.ref.goBack();
-                console.log(this.webView.ref);
               }}
               transparent
               disabled={!this.state.canGoBack}
