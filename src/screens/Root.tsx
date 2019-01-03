@@ -12,6 +12,8 @@ import ArticleScreen from "./ArticleScreen";
 import SideBarComponent from "../containers/SideBarComponent";
 import BookmarkScreen from "./BookmarkScreen";
 import TestScreen from "./TestScreen";
+import FeedScreen from "../containers/FeedScreen";
+// import FeedScreen from "./FeedScreen";
 import { getStatusBarHeight, ifIphoneX } from "react-native-iphone-x-helper";
 import rssReducer from "../reducers/rss";
 
@@ -61,6 +63,13 @@ const scenes = Actions.create(
         title="あとで読む"
         navigationBarStyle={styles.test}
         titleStyle={{ color: "#FFF" }}
+      />
+      <Scene
+        key="FeedScreen"
+        component={FeedScreen}
+        navigationBarStyle={styles.test}
+        titleStyle={{ color: "#FFF" }}
+        title="feed"
       />
     </Drawer>
     <Scene

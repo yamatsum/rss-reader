@@ -12,11 +12,12 @@ import {
 import * as React from "react";
 import { getStatusBarHeight, ifIphoneX } from "react-native-iphone-x-helper";
 // import HeaderComponent from "../components/HeaderComponent";
-import ListComponent from "../containers/ListComponent";
+import ListComponent from "../components/ListComponent";
 import { StyleSheet, ScrollView } from "react-native";
 import * as rssParser from "react-native-rss-parser";
+import { Actions } from "react-native-router-flux";
 
-export default class TopScreen extends React.Component {
+export default class FeedScreen extends React.Component {
   constructor(props: any) {
     super(props);
     this.state = {
@@ -25,22 +26,19 @@ export default class TopScreen extends React.Component {
   }
 
   async loadFeed() {
-    for (const r of this.props.rssList) {
-      if (r.registrationFlag) {
-        const response = await fetch(r.url);
-        const rss = await rssParser.parse(await response.text());
+    const response = await fetch(this.props.rssList[this.props.rssIndex]);
+    const rss = await rssParser.parse(await response.text());
 
-        for (const item of rss.items) {
-          item.feedTitle = rss.title;
-        }
-        this.setState({
-          rss: rss.items
-        });
-      }
+    for (const item of rss.items) {
+      item.feedTitle = rss.title;
     }
+    this.setState({
+      rss: rss.items
+    });
   }
 
   componentDidMount() {
+    console.log(this.props);
     this.loadFeed();
   }
 

@@ -25,6 +25,7 @@ class ArticleScreen extends React.Component<any, any> {
   }
 
   async componentDidMount() {
+    console.log(this.props);
     await this._retrieveData().then(value => {
       this.setState({ bookmarks: JSON.parse(value) });
     });

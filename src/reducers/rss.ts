@@ -10,7 +10,8 @@ const initialState = {
       url: "http://www.xn--ss-ci4aa8ub2251exr3e.com/index.rdf",
       registrationFlag: true
     }
-  ]
+  ],
+  rssIndex: 0
 };
 
 export default function rssReducer(state = initialState, action) {
@@ -24,6 +25,10 @@ export default function rssReducer(state = initialState, action) {
           }),
           ...state.rssList.slice(action.index + 1)
         ]
+      });
+    case "CHANGE_INDEX":
+      return Object.assign({}, state, {
+        rssIndex: action.index
       });
     default:
       return state;

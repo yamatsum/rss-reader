@@ -1,15 +1,23 @@
 import { connect } from "react-redux";
 import SideBarComponent from "../components/SideBarComponent";
-import { changeRegistration } from "../actions/rssList";
+// import { changeRegistration } from "../actions/rssList";
+import { changeIndex } from "../actions/rssIndex";
 
-function mapStateToProps({ rssList }) {
-  return { rssList };
+function mapStateToProps({ rssList, rssIndex }) {
+  return { rssList, rssIndex };
 }
 
+// function mapDespatchToProps(dispatch) {
+//   return {
+//     changeRegistration(rss) {
+//       dispatch(changeRegistration(rss));
+//     }
+//   };
+// }
 function mapDespatchToProps(dispatch) {
   return {
-    changeRegistration(rss) {
-      dispatch(changeRegistration(rss));
+    onChangeIndex(index) {
+      dispatch(changeIndex(index));
     }
   };
 }

@@ -19,11 +19,20 @@ export default class SideBarComponent extends React.Component<any, any> {
     let rssList = [];
     this.props.rssList.forEach((rss, index) => {
       rssList.push(
-        <ListItem key={index}>
+        <ListItem
+          key={index}
+          onPress={() => {
+            this.props.onChangeIndex(index);
+            Actions.drawerClose();
+            Actions.FeedScreen();
+            Actions.refresh({ key: index });
+          }}
+        >
           <Text>{rss.title}</Text>
         </ListItem>
       );
     });
+
     return rssList;
   }
 

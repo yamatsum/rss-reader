@@ -125,14 +125,10 @@ class ListComponent extends React.Component<any, any> {
     return feedItems;
   }
 
-  componentDidMount() {
-    console.log(this.props.rss.length);
-  }
-
   render() {
     for (
       let counter = 0;
-      counter < Math.ceil(this.props.itemCount / ITEM_COUNT_PAGE);
+      counter < Math.ceil(this.props.rss.length / ITEM_COUNT_PAGE);
       counter++
     ) {
       this.pages[counter] = (
