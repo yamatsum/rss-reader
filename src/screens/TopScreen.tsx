@@ -25,19 +25,22 @@ export default class TopScreen extends React.Component {
   }
 
   async loadFeed() {
+    const rssItems = [];
     for (const r of this.props.rssList) {
       if (r.registrationFlag) {
         const response = await fetch(r.url);
+        console.log(response);
         const rss = await rssParser.parse(await response.text());
 
         for (const item of rss.items) {
           item.feedTitle = rss.title;
         }
-        this.setState({
-          rss: rss.items
-        });
+        Array.prototype.push.apply(rssItems, rss.items);
       }
     }
+    this.setState({
+      rss: rssItems
+    });
   }
 
   componentDidMount() {
