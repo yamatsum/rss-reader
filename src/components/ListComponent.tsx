@@ -15,6 +15,7 @@ import ElevatedView from "react-native-elevated-view";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import * as rssParser from "react-native-rss-parser";
 import { parse } from "node-html-parser";
+import CustomPlaceholder from "../components/CustomPlaceholder";
 
 const ITEM_COUNT_PAGE = isIphoneX() ? 5 : 4;
 
@@ -99,7 +100,7 @@ class ListComponent extends React.Component<any, any> {
   constructor(props: any) {
     super(props);
     this.state = {
-      refreshing: false
+      isReady: false
     };
   }
 
@@ -126,48 +127,50 @@ class ListComponent extends React.Component<any, any> {
       feedItems.push(
         <View style={{ flex: 1 }} key={i}>
           <View style={{ flex: 7 }}>
-            <TouchableHighlight
-              key={i + count * ITEM_COUNT_PAGE}
-              style={styles.container}
-              underlayColor="#E4E5E8"
-              onPress={() => {
-                Actions.ArticleScreen({
-                  rss: this.props.rss[i + count * ITEM_COUNT_PAGE]
-                    ? this.props.rss[i + count * ITEM_COUNT_PAGE]
-                    : "hoge"
-                });
-              }}
-            >
-              <View style={{ flex: 1 }}>
-                <View style={styles.feedBox}>
-                  <View style={styles.feedImageArea}>
-                    <Image
-                      style={styles.feedImage}
-                      source={{
-                        uri: this.getThumbnail(
-                          this.props.rss[i + count * ITEM_COUNT_PAGE]
-                        )
-                      }}
-                    />
-                  </View>
-                  <View style={styles.feedTextArea}>
-                    <View style={styles.feedTextAreaInside}>
-                      <Text numberOfLines={4} style={styles.title}>
-                        {this.props.rss[i + count * ITEM_COUNT_PAGE]
-                          ? this.props.rss[i + count * ITEM_COUNT_PAGE].title
-                          : "hoge"}
-                      </Text>
-                      <Text style={styles.subtitle}>
-                        {this.props.rss[i + count * ITEM_COUNT_PAGE]
-                          ? this.props.rss[i + count * ITEM_COUNT_PAGE]
-                              .feedTitle
-                          : "hoge"}
-                      </Text>
+            <CustomPlaceholder onReady={this.props.isReady} animate="fade">
+              <TouchableHighlight
+                key={i + count * ITEM_COUNT_PAGE}
+                style={styles.container}
+                underlayColor="#E4E5E8"
+                onPress={() => {
+                  Actions.ArticleScreen({
+                    rss: this.props.rss[i + count * ITEM_COUNT_PAGE]
+                      ? this.props.rss[i + count * ITEM_COUNT_PAGE]
+                      : "hoge"
+                  });
+                }}
+              >
+                <View style={{ flex: 1 }}>
+                  <View style={styles.feedBox}>
+                    <View style={styles.feedImageArea}>
+                      <Image
+                        style={styles.feedImage}
+                        source={{
+                          uri: this.getThumbnail(
+                            this.props.rss[i + count * ITEM_COUNT_PAGE]
+                          )
+                        }}
+                      />
+                    </View>
+                    <View style={styles.feedTextArea}>
+                      <View style={styles.feedTextAreaInside}>
+                        <Text numberOfLines={4} style={styles.title}>
+                          {this.props.rss[i + count * ITEM_COUNT_PAGE]
+                            ? this.props.rss[i + count * ITEM_COUNT_PAGE].title
+                            : "hoge"}
+                        </Text>
+                        <Text style={styles.subtitle}>
+                          {this.props.rss[i + count * ITEM_COUNT_PAGE]
+                            ? this.props.rss[i + count * ITEM_COUNT_PAGE]
+                                .feedTitle
+                            : "hoge"}
+                        </Text>
+                      </View>
                     </View>
                   </View>
                 </View>
-              </View>
-            </TouchableHighlight>
+              </TouchableHighlight>
+            </CustomPlaceholder>
           </View>
           <View style={{ flex: 1 }} />
         </View>

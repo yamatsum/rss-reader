@@ -20,7 +20,8 @@ export default class TopScreen extends React.Component {
   constructor(props: any) {
     super(props);
     this.state = {
-      rss: [{ title: "fuga" }]
+      rss: [{ title: "fuga" }],
+      isReady: false
     };
   }
 
@@ -38,6 +39,7 @@ export default class TopScreen extends React.Component {
       }
     }
     this.setState({
+      isReady: true,
       rss: rssItems
     });
   }
@@ -50,7 +52,7 @@ export default class TopScreen extends React.Component {
     return (
       <Container>
         <View style={{ flex: 1 }}>
-          <ListComponent rss={this.state.rss} />
+          <ListComponent rss={this.state.rss} isReady={this.state.isReady} />
         </View>
       </Container>
     );
