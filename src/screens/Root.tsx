@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
   test: {
     // backgroundColor: "transparent"
     // backgroundColor: "rgba(52, 52, 52, 0.5)"
-    backgroundColor: "#1e2226",
+    // backgroundColor: "#1e2226",
     borderBottomWidth: 0
   }
 });
@@ -45,7 +45,7 @@ const scenes = Actions.create(
     <Drawer
       key="drawer"
       drawerWidth={300}
-      drawerIcon={() => <Icon name="menu" style={{ color: "white" }} />}
+      drawerIcon={() => <Icon name="menu" style={{ color: "#303336" }} />}
       contentComponent={SideBarComponent}
       hideNavBar
     >
@@ -54,21 +54,17 @@ const scenes = Actions.create(
         initial
         component={TopScreen}
         navigationBarStyle={styles.test}
-        titleStyle={{ color: "#FFF" }}
-        title="ジョジョのニュース"
       />
       <Scene
         key="BookmarkScreen"
         component={BookmarkScreen}
         title="あとで読む"
         navigationBarStyle={styles.test}
-        titleStyle={{ color: "#FFF" }}
       />
       <Scene
         key="FeedScreen"
         component={FeedScreen}
         navigationBarStyle={styles.test}
-        titleStyle={{ color: "#FFF" }}
         title="feed"
       />
     </Drawer>

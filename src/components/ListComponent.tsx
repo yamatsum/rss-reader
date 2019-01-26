@@ -7,7 +7,7 @@ import {
   AsyncStorage,
   FlatList,
   Image,
-  TouchableOpacity
+  TouchableHighlight
 } from "react-native";
 import { Actions } from "react-native-router-flux";
 import Swiper from "react-native-swiper";
@@ -16,7 +16,7 @@ import { isIphoneX } from "react-native-iphone-x-helper";
 import * as rssParser from "react-native-rss-parser";
 import { parse } from "node-html-parser";
 
-const ITEM_COUNT_PAGE = 6;
+const ITEM_COUNT_PAGE = isIphoneX() ? 5 : 4;
 
 const styles = StyleSheet.create({
   slide: {
@@ -33,7 +33,9 @@ const styles = StyleSheet.create({
     flex: 1
   },
   container: {
-    flex: 1
+    flex: 1,
+    borderRadius: 10,
+    margin: 6
   },
   stayElevated: {
     // width: 380,
@@ -50,6 +52,44 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 10,
     overflow: "hidden",
     aspectRatio: 1
+  },
+  feedBox: {
+    flex: 1,
+    // borderWidth: 0.5,
+    flexDirection: "row"
+  },
+  feedImageArea: {
+    flex: 2
+  },
+  feedImage: {
+    flex: 1,
+    margin: 12,
+    borderRadius: 10,
+    borderWidth: 0.1,
+    aspectRatio: 1
+  },
+  feedTextArea: {
+    flex: 5
+  },
+  feedTextAreaInside: {
+    flex: 1,
+    marginTop: 12,
+    marginLeft: 14,
+    marginBottom: 12,
+    marginRight: 12
+  },
+  title: {
+    fontSize: 16,
+    fontFamily: "System",
+    fontWeight: "900",
+    color: "#303336",
+    lineHeight: 20
+  },
+  subtitle: {
+    fontSize: 14,
+    fontFamily: "System",
+    fontWeight: "400",
+    color: "#949CA6"
   }
 });
 
@@ -84,42 +124,53 @@ class ListComponent extends React.Component<any, any> {
     let feedItems = [];
     for (let i = 0; i < ITEM_COUNT_PAGE; i++) {
       feedItems.push(
-        <TouchableOpacity
-          key={i + count * ITEM_COUNT_PAGE}
-          style={styles.container}
-          onPress={() => {
-            Actions.ArticleScreen({
-              rss: this.props.rss[i + count * ITEM_COUNT_PAGE]
-                ? this.props.rss[i + count * ITEM_COUNT_PAGE]
-                : "hoge"
-            });
-          }}
-        >
-          <ElevatedView elevation={20} style={styles.stayElevated}>
-            <View style={styles.img}>
-              <Image
-                style={{ flex: 1 }}
-                source={{
-                  uri: this.getThumbnail(
-                    this.props.rss[i + count * ITEM_COUNT_PAGE]
-                  )
-                }}
-              />
-            </View>
-            <View style={{ flexDirection: "column", flex: 1 }}>
-              <Text style={{ padding: 10, flex: 3, fontWeight: "bold" }}>
-                {this.props.rss[i + count * ITEM_COUNT_PAGE]
-                  ? this.props.rss[i + count * ITEM_COUNT_PAGE].title
-                  : "hoge"}
-              </Text>
-              <Text style={{ padding: 10, flex: 1, color: "gray" }}>
-                {this.props.rss[i + count * ITEM_COUNT_PAGE]
-                  ? this.props.rss[i + count * ITEM_COUNT_PAGE].feedTitle
-                  : "hoge"}
-              </Text>
-            </View>
-          </ElevatedView>
-        </TouchableOpacity>
+        <View style={{ flex: 1 }} key={i}>
+          <View style={{ flex: 7 }}>
+            <TouchableHighlight
+              key={i + count * ITEM_COUNT_PAGE}
+              style={styles.container}
+              underlayColor="#E4E5E8"
+              onPress={() => {
+                Actions.ArticleScreen({
+                  rss: this.props.rss[i + count * ITEM_COUNT_PAGE]
+                    ? this.props.rss[i + count * ITEM_COUNT_PAGE]
+                    : "hoge"
+                });
+              }}
+            >
+              <View style={{ flex: 1 }}>
+                <View style={styles.feedBox}>
+                  <View style={styles.feedImageArea}>
+                    <Image
+                      style={styles.feedImage}
+                      source={{
+                        uri: this.getThumbnail(
+                          this.props.rss[i + count * ITEM_COUNT_PAGE]
+                        )
+                      }}
+                    />
+                  </View>
+                  <View style={styles.feedTextArea}>
+                    <View style={styles.feedTextAreaInside}>
+                      <Text numberOfLines={4} style={styles.title}>
+                        {this.props.rss[i + count * ITEM_COUNT_PAGE]
+                          ? this.props.rss[i + count * ITEM_COUNT_PAGE].title
+                          : "hoge"}
+                      </Text>
+                      <Text style={styles.subtitle}>
+                        {this.props.rss[i + count * ITEM_COUNT_PAGE]
+                          ? this.props.rss[i + count * ITEM_COUNT_PAGE]
+                              .feedTitle
+                          : "hoge"}
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+              </View>
+            </TouchableHighlight>
+          </View>
+          <View style={{ flex: 1 }} />
+        </View>
       );
     }
     return feedItems;
