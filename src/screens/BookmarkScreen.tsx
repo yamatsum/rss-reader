@@ -19,7 +19,7 @@ class BookmarkScreen extends React.Component<any, any> {
     super(props);
     this.state = {
       rss: [{ title: "fuga" }],
-      refreshing: false
+      isReady: false
     };
   }
 
@@ -40,7 +40,7 @@ class BookmarkScreen extends React.Component<any, any> {
 
   async componentWillMount() {
     await this._retrieveData().then(value => {
-      this.setState({ rss: JSON.parse(value) });
+      this.setState({ rss: JSON.parse(value), isReady: true });
     });
   }
 
@@ -48,7 +48,7 @@ class BookmarkScreen extends React.Component<any, any> {
     return (
       <Container>
         <View style={{ flex: 1 }}>
-          <ListComponent rss={this.state.rss} />
+          <ListComponent rss={this.state.rss} isReady={this.state.isReady} />
         </View>
       </Container>
     );

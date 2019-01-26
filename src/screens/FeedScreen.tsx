@@ -21,7 +21,8 @@ export default class FeedScreen extends React.Component {
   constructor(props: any) {
     super(props);
     this.state = {
-      rss: [{ title: "fuga" }]
+      rss: [{ title: "fuga" }],
+      isReady: false
     };
   }
 
@@ -33,12 +34,12 @@ export default class FeedScreen extends React.Component {
       item.feedTitle = rss.title;
     }
     this.setState({
-      rss: rss.items
+      rss: rss.items,
+      isReady: true
     });
   }
 
   componentDidMount() {
-    console.log(this.props);
     this.loadFeed();
   }
 
@@ -46,7 +47,7 @@ export default class FeedScreen extends React.Component {
     return (
       <Container>
         <View style={{ flex: 1 }}>
-          <ListComponent rss={this.state.rss} />
+          <ListComponent rss={this.state.rss} isReady={this.state.isReady} />
         </View>
       </Container>
     );
