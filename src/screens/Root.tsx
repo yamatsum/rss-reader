@@ -45,7 +45,13 @@ const scenes = Actions.create(
     <Drawer
       key="drawer"
       drawerWidth={300}
-      drawerIcon={() => <Icon name="menu" style={{ color: "#303336" }} />}
+      drawerIcon={() => (
+        <Icon
+          type="Feather"
+          name="menu"
+          style={{ fontSize: 24, color: "#303336" }}
+        />
+      )}
       contentComponent={SideBarComponent}
       hideNavBar
     >

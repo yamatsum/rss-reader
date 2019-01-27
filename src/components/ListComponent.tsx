@@ -5,7 +5,6 @@ import {
   View,
   RefreshControl,
   AsyncStorage,
-  FlatList,
   Image,
   TouchableHighlight
 } from "react-native";
