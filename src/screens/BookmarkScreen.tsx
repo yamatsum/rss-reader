@@ -18,7 +18,7 @@ class BookmarkScreen extends React.Component<any, any> {
   constructor(props: any) {
     super(props);
     this.state = {
-      rss: [{ title: "fuga" }],
+      rss: [{ no: "rss" }],
       isReady: false
     };
   }
@@ -40,7 +40,11 @@ class BookmarkScreen extends React.Component<any, any> {
 
   async componentWillMount() {
     await this._retrieveData().then(value => {
-      this.setState({ rss: JSON.parse(value), isReady: true });
+      if (JSON.parse(value).length == 0) {
+        this.setState({ isReady: true });
+      } else {
+        this.setState({ rss: JSON.parse(value), isReady: true });
+      }
     });
   }
 

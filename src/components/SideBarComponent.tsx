@@ -87,6 +87,7 @@ export default class SideBarComponent extends React.Component<any, any> {
     this.props.rssList.forEach((rss, index) => {
       rssList.push(
         <TouchableOpacity
+          key={index}
           style={[
             styles.sidebarList,
             this.state.currentScreen === index + 3 ? styles.active : {}

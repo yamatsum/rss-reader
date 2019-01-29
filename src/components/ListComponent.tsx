@@ -90,6 +90,25 @@ const styles = StyleSheet.create({
     fontFamily: "System",
     fontWeight: "400",
     color: "#949CA6"
+  },
+  nocontent: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  nocontentButton: {
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#303336",
+    borderRadius: 10,
+    width: "64%",
+    height: "8%"
+  },
+  nocontentText: {
+    fontSize: 16,
+    fontFamily: "System",
+    fontWeight: "900",
+    color: "white"
   }
 });
 
@@ -127,48 +146,46 @@ class ListComponent extends React.Component<any, any> {
         <View style={{ flex: 1 }} key={i}>
           <View style={{ flex: 7 }}>
             <CustomPlaceholder onReady={this.props.isReady} animate="fade">
-              <TouchableHighlight
-                key={i + count * ITEM_COUNT_PAGE}
-                style={styles.container}
-                underlayColor="#E4E5E8"
-                onPress={() => {
-                  Actions.ArticleScreen({
-                    rss: this.props.rss[i + count * ITEM_COUNT_PAGE]
-                      ? this.props.rss[i + count * ITEM_COUNT_PAGE]
-                      : "hoge"
-                  });
-                }}
-              >
-                <View style={{ flex: 1 }}>
-                  <View style={styles.feedBox}>
-                    <View style={styles.feedImageArea}>
-                      <Image
-                        style={styles.feedImage}
-                        source={{
-                          uri: this.getThumbnail(
-                            this.props.rss[i + count * ITEM_COUNT_PAGE]
-                          )
-                        }}
-                      />
-                    </View>
-                    <View style={styles.feedTextArea}>
-                      <View style={styles.feedTextAreaInside}>
-                        <Text numberOfLines={4} style={styles.title}>
-                          {this.props.rss[i + count * ITEM_COUNT_PAGE]
-                            ? this.props.rss[i + count * ITEM_COUNT_PAGE].title
-                            : "hoge"}
-                        </Text>
-                        <Text style={styles.subtitle}>
-                          {this.props.rss[i + count * ITEM_COUNT_PAGE]
-                            ? this.props.rss[i + count * ITEM_COUNT_PAGE]
+              {this.props.rss[i + count * ITEM_COUNT_PAGE] && (
+                <TouchableHighlight
+                  key={i + count * ITEM_COUNT_PAGE}
+                  style={styles.container}
+                  underlayColor="#E4E5E8"
+                  onPress={() => {
+                    Actions.ArticleScreen({
+                      rss: this.props.rss[i + count * ITEM_COUNT_PAGE]
+                    });
+                  }}
+                >
+                  <View style={{ flex: 1 }}>
+                    <View style={styles.feedBox}>
+                      <View style={styles.feedImageArea}>
+                        <Image
+                          style={styles.feedImage}
+                          source={{
+                            uri: this.getThumbnail(
+                              this.props.rss[i + count * ITEM_COUNT_PAGE]
+                            )
+                          }}
+                        />
+                      </View>
+                      <View style={styles.feedTextArea}>
+                        <View style={styles.feedTextAreaInside}>
+                          <Text numberOfLines={4} style={styles.title}>
+                            {this.props.rss[i + count * ITEM_COUNT_PAGE].title}
+                          </Text>
+                          <Text style={styles.subtitle}>
+                            {
+                              this.props.rss[i + count * ITEM_COUNT_PAGE]
                                 .feedTitle
-                            : "hoge"}
-                        </Text>
+                            }
+                          </Text>
+                        </View>
                       </View>
                     </View>
                   </View>
-                </View>
-              </TouchableHighlight>
+                </TouchableHighlight>
+              )}
             </CustomPlaceholder>
           </View>
           <View style={{ flex: 1 }} />
@@ -179,18 +196,36 @@ class ListComponent extends React.Component<any, any> {
   }
 
   render() {
-    for (
-      let counter = 0;
-      counter < Math.ceil(this.props.rss.length / ITEM_COUNT_PAGE);
-      counter++
+    if (
+      this.props.rss[0] &&
+      this.props.rss[0].no == "rss" &&
+      this.props.isReady
     ) {
-      this.pages[counter] = (
-        <View key={counter} style={styles.slide}>
-          {this.setFeedItem(counter)}
+      this.pages[0] = (
+        <View key="nocontent" style={styles.nocontent}>
+          <TouchableHighlight
+            style={styles.nocontentButton}
+            onPress={() => {
+              Actions.TopScreen();
+            }}
+          >
+            <Text style={styles.nocontentText}>最近の記事を読む</Text>
+          </TouchableHighlight>
         </View>
       );
+    } else {
+      for (
+        let counter = 0;
+        counter < Math.ceil(this.props.rss.length / ITEM_COUNT_PAGE);
+        counter++
+      ) {
+        this.pages[counter] = (
+          <View key={counter} style={styles.slide}>
+            {this.setFeedItem(counter)}
+          </View>
+        );
+      }
     }
-
     return (
       <Swiper horizontal={false} showsPagination={false} loop={false}>
         {this.pages}
