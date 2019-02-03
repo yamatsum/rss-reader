@@ -113,17 +113,28 @@ class ArticleScreen extends React.Component<any, any> {
 
     try {
       if (jsonBookmarks.length !== 0 && !this.state.existFlag) {
+        // New addition
         jsonBookmarks.push(item);
         await AsyncStorage.setItem("bookmarks", JSON.stringify(jsonBookmarks));
+        await this._retrieveData().then(value => {
+          this.setState({ bookmarks: JSON.parse(value) });
+        });
         this.setState({ existFlag: true });
       } else if (jsonBookmarks.length !== 0 && this.state.existFlag) {
+        // Remove from favorites
         await AsyncStorage.setItem(
           "bookmarks",
           JSON.stringify(await this.deleteItem(jsonBookmarks, item.title))
         );
+        await this._retrieveData().then(value => {
+          this.setState({ bookmarks: JSON.parse(value) });
+        });
         this.setState({ existFlag: false });
       } else {
         await AsyncStorage.setItem("bookmarks", JSON.stringify([item]));
+        await this._retrieveData().then(value => {
+          this.setState({ bookmarks: JSON.parse(value) });
+        });
         this.setState({ existFlag: true });
       }
     } catch (error) {
