@@ -1,5 +1,13 @@
 import * as React from "react";
-import { WebView, AsyncStorage, Share } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  WebView,
+  AsyncStorage,
+  Share,
+  View,
+  Platform
+} from "react-native";
 import { Actions } from "react-native-router-flux";
 import {
   Container,
@@ -12,6 +20,41 @@ import {
   Title,
   Footer
 } from "native-base";
+import { BlurView } from "expo";
+
+const styles = StyleSheet.create({
+  overlay: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    height: 64,
+    borderBottomWidth: 1
+    // backgroundColor: "rgba(0,0,0,0.2)"
+  },
+  overlayFooter: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 44,
+    borderBottomWidth: 1
+    // backgroundColor: "rgba(0,0,0,0.2)"
+  },
+  header: {
+    flex: 1,
+    flexDirection: "row"
+  },
+  leftHeader: {
+    flex: 1
+  },
+  centerHeader: {
+    flex: 3
+  },
+  rightHeader: {
+    flex: 1
+  }
+});
 
 class ArticleScreen extends React.Component<any, any> {
   constructor(props: any) {
@@ -25,7 +68,6 @@ class ArticleScreen extends React.Component<any, any> {
   }
 
   async componentDidMount() {
-    console.log(this.props);
     await this._retrieveData().then(value => {
       this.setState({ bookmarks: JSON.parse(value) });
     });
@@ -129,57 +171,95 @@ class ArticleScreen extends React.Component<any, any> {
   render() {
     return (
       <Container>
-        <Header>
-          <Left>
-            <Button onPress={() => Actions.pop()} transparent>
-              <Icon name="arrow-back" />
-            </Button>
-          </Left>
-          <Body>
-            <Title>{this.props.rss.author}</Title>
-          </Body>
-          <Right>
-            <Button onPress={() => this._storeData(this.props.rss)} transparent>
-              {this.state.existFlag ? (
-                <Icon type="FontAwesome" name="bookmark" />
-              ) : (
-                <Icon type="FontAwesome" name="bookmark-o" />
-              )}
-            </Button>
-          </Right>
-        </Header>
         <WebView
           ref={r => (this.webView.ref = r)}
           source={{ uri: this.props.rss.links[0].url }}
           onNavigationStateChange={this.onNavigationStateChange.bind(this)}
+          contentInset={{ top: 64 }}
         />
-        <Footer>
-          <Left style={{ flexDirection: "row" }}>
-            <Button
-              onPress={() => {
-                this.webView.ref.goBack();
-              }}
-              transparent
-              disabled={!this.state.canGoBack}
-            >
-              <Icon name="arrow-back" />
-            </Button>
-            <Button
-              onPress={() => {
-                this.webView.ref.goForward();
-              }}
-              transparent
-              disabled={!this.state.canGoForward}
-            >
-              <Icon name="arrow-forward" />
-            </Button>
-          </Left>
-          <Right>
-            <Button transparent onPress={() => this.shareFeed(this.props.rss)}>
-              <Icon type="Feather" name="share" />
-            </Button>
-          </Right>
-        </Footer>
+        <BlurView tint="light" intensity={80} style={styles.overlay}>
+          <View style={{ height: 20 }} />
+          <View style={styles.header}>
+            <View style={styles.leftHeader}>
+              <Button onPress={() => Actions.pop()} transparent>
+                <Icon name="arrow-back" style={{ color: "#303336" }} />
+              </Button>
+            </View>
+            <View style={styles.centerHeader} />
+            <View style={styles.rightHeader}>
+              <Button
+                onPress={() => this._storeData(this.props.rss)}
+                transparent
+                style={{ alignSelf: "flex-end" }}
+              >
+                {this.state.existFlag ? (
+                  <Icon
+                    type="FontAwesome"
+                    name="bookmark"
+                    style={{ color: "#303336" }}
+                  />
+                ) : (
+                  <Icon
+                    type="FontAwesome"
+                    name="bookmark-o"
+                    style={{ color: "#303336" }}
+                  />
+                )}
+              </Button>
+            </View>
+          </View>
+        </BlurView>
+        <BlurView tint="light" intensity={80} style={styles.overlayFooter}>
+          <View style={styles.header}>
+            <View style={styles.leftHeader}>
+              <Button
+                onPress={() => this.webView.ref.goBack()}
+                disabled={!this.state.canGoBack}
+                transparent
+              >
+                <Icon
+                  name="arrow-back"
+                  style={
+                    this.state.canGoBack
+                      ? { color: "#303336" }
+                      : { color: "#E4E5E8" }
+                  }
+                />
+              </Button>
+            </View>
+            <View style={styles.leftHeader} />
+            <View style={styles.leftHeader}>
+              <Button
+                onPress={() => this.webView.ref.goForward()}
+                disabled={!this.state.canGoForward}
+                transparent
+              >
+                <Icon
+                  name="arrow-forward"
+                  style={
+                    this.state.canGoForward
+                      ? { color: "#303336" }
+                      : { color: "#E4E5E8" }
+                  }
+                />
+              </Button>
+            </View>
+            <View style={styles.centerHeader} />
+            <View style={styles.rightHeader}>
+              <Button
+                style={{ alignSelf: "flex-end" }}
+                onPress={() => this.shareFeed(this.props.rss)}
+                transparent
+              >
+                <Icon
+                  type="Feather"
+                  name="share"
+                  style={{ color: "#303336" }}
+                />
+              </Button>
+            </View>
+          </View>
+        </BlurView>
       </Container>
     );
   }
